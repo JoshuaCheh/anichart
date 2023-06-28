@@ -6,10 +6,13 @@ import {
   Center,
   Container,
   Flex,
+  Grid,
+  GridItem,
   Heading,
   Skeleton,
   Spinner,
   Stack,
+  Text,
   Wrap,
 } from "@chakra-ui/react";
 import WelcomeModal from "../components/WelcomeModal";
@@ -25,6 +28,7 @@ import {
 } from "../lib/queries";
 import AnimeCard from "../components/AnimeCard";
 import { Colors } from "../lib/theme/colors";
+import NavBar from "../components/NavBar";
 
 const Home = () => {
   const currentYear = new Date().getFullYear();
@@ -50,7 +54,8 @@ const Home = () => {
   }, [data, loading]);
 
   return (
-    <Box paddingY={"16"}>
+    <>
+      <NavBar userDetails={userDetails} />
       <WelcomeModal
         isOpen={welcomeModalOpen}
         onClose={(inputDetails) => {
@@ -58,23 +63,38 @@ const Home = () => {
           setWelcomeModalOpen(false);
         }}
       />
-      <Center>
-        <Heading as="h2" textAlign={"center"} width={"max"}>
-          Top Anime for {currentYear} from AniList
-        </Heading>
-      </Center>
-      <Center>
-        {topAnime && !loading ? (
-          <Stack>
-            {topAnime.map((anime) => (
-              <AnimeCard key={anime.id} anime={anime} />
-            ))}
-          </Stack>
-        ) : (
-          <Spinner />
-        )}
-      </Center>
-    </Box>
+      <Box>
+        <Center>
+          <Heading size="lg" textAlign={"center"} width={"max"} paddingY={"8"}>
+            Top Anime for {currentYear} from AniList
+          </Heading>
+        </Center>
+        <Center>
+          <Grid
+            templateColumns={{
+              sm: "repeat(2, 1fr)",
+              md: "repeat(3, 1fr)",
+              xl: "repeat(5, 1fr)",
+            }}
+            gap={6}
+          >
+            {topAnime && !loading ? (
+              topAnime.map((anime) => (
+                <GridItem key={anime.id}>
+                  <AnimeCard anime={anime} />
+                </GridItem>
+              ))
+            ) : (
+              <>
+                <Skeleton height={326} width={230} />
+                <Skeleton height={326} width={230} />
+                <Skeleton height={326} width={230} />
+              </>
+            )}
+          </Grid>
+        </Center>
+      </Box>
+    </>
   );
 };
 

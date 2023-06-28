@@ -35,7 +35,7 @@ export interface GetAniListResults {
 
 export const GET_ANI_LIST = gql`
   query getAniList($seasonYear: Int) {
-    Page(page: 1, perPage: 10) {
+    Page(page: 1) {
       media(seasonYear: $seasonYear, type: ANIME, sort: SCORE_DESC) {
         id
         idMal

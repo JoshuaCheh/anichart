@@ -5,7 +5,7 @@ export const theme = extendTheme({
   styles: {
     global: {
       body: {
-        bg: Colors.moonstone,
+        bg: Colors.white,
       },
     },
   },

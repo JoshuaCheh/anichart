@@ -3,48 +3,59 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Fade,
   Flex,
   Heading,
   Image,
+  LinkOverlay,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import { Anime } from "../lib/queries";
-import { stripHtml } from "string-strip-html";
+
+import { useState } from "react";
+import AnimeDetailsModal from "./AnimeDetailsModal";
 
 interface Props {
   anime: Anime;
 }
 
 const AnimeCard = ({ anime }: Props) => {
-  return (
-    <Card>
-      <CardHeader>
-        <Flex justifyContent={"space-between"}>
-          <Box>
-            <Heading size="md" maxWidth={"xl"} noOfLines={[1]}>
-              {anime.title.english || anime.title.romaji}
-            </Heading>
-          </Box>
-          <Heading size="md">{anime.meanScore}</Heading>
-        </Flex>
-      </CardHeader>
+  const [detailsModalOpen, setDetailsModalOpen] = useState(false);
+  const [onHoverCss, setOnHoverCss] = useState({});
 
-      <CardBody>
-        <Stack direction={"row"}>
-          <Box boxSize="sm">
-            <Image src={anime.coverImage.large} alt={anime.title.romaji} />
-          </Box>
-          <Box boxSize="sm">
-            <Stack direction={"column"}>
-              <Text noOfLines={[15]} overflow={"auto"}>
-                {stripHtml(anime.description).result}
-              </Text>
-            </Stack>
-          </Box>
-        </Stack>
-      </CardBody>
-    </Card>
+  return (
+    <Box>
+      <Box
+        onClick={() => {
+          setDetailsModalOpen(true);
+        }}
+        style={{
+          cursor: "pointer",
+        }}
+        bg={"gray.500"}
+      >
+        <Image
+          style={onHoverCss}
+          src={anime.coverImage.large}
+          alt={anime.title.romaji}
+          onMouseEnter={() =>
+            setOnHoverCss({
+              opacity: 0.4,
+              transition: "opacity 0.3s",
+            })
+          }
+          onMouseOut={() => setOnHoverCss({})}
+        />
+      </Box>
+      <AnimeDetailsModal
+        anime={anime}
+        isOpen={detailsModalOpen}
+        onClose={() => {
+          setDetailsModalOpen(false);
+        }}
+      />
+    </Box>
   );
 };
 
