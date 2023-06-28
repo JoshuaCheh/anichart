@@ -1,7 +1,6 @@
-import { Flex, Heading, Stack, Text } from "@chakra-ui/react";
+import { Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 import { UserDetails } from "../lib/types";
-import { LogoutButton } from "./AuthButtons";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 interface Props {
   userDetails: UserDetails | null;
@@ -38,7 +37,11 @@ const NavBar = ({ userDetails }: Props) => {
         ) : (
           <></>
         )}
-        {status === "authenticated" ? <LogoutButton /> : <></>}
+        {status === "authenticated" ? (
+          <Button onClick={() => signOut()}>Sign Out</Button>
+        ) : (
+          <></>
+        )}
       </Stack>
     </Flex>
   );
