@@ -13,14 +13,14 @@ const NavBar = ({ userDetails }: Props) => {
     <Flex
       bg={"brand.moonstone"}
       paddingY={4}
-      paddingX={10}
+      paddingX={{ sm: 2, md: 10 }}
       alignItems={"center"}
       justifyContent={"space-between"}
     >
       <Heading color={"brand.white"}>The ANIME List</Heading>
       <Stack direction={"row"} gap={2} alignItems={"center"}>
         {userDetails ? (
-          <Stack direction={"row"} gap={8}>
+          <Stack direction={"row"} gap={{ sm: 2, md: 8 }} alignItems={"center"}>
             <Stack direction={"row"} gap={2} alignItems={"center"}>
               <Text size={"md"} fontWeight={"bold"}>
                 Username:
